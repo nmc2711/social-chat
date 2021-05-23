@@ -27,22 +27,22 @@ function Rightbar({ profile }) {
   const ProfileRightbar = () => {
     return (
       <>
-        <h4 className="rightbarTitle">User information</h4>
+        <h4 className="rightbarTitle">나의 정보</h4>
         <div className="rightbarInfo">
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">City:</span>
-            <span className="rightbarInfoValue">New York</span>
+            <span className="rightbarInfoValue">의정부</span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">From:</span>
-            <span className="rightbarInfoValue">Madrid</span>
+            <span className="rightbarInfoValue">비공개</span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">Relationship:</span>
-            <span className="rightbarInfoValue">Single</span>
+            <span className="rightbarInfoValue">비공개</span>
           </div>
         </div>
-        <h4 className="rightbarTitle">User friends</h4>
+        <h4 className="rightbarTitle">관련된 사람들</h4>
         <div className="rightbarFollowings">
           <div className="rightbarFollowing">
             <img
@@ -50,7 +50,7 @@ function Rightbar({ profile }) {
               alt=""
               className="rightbarFollowingImg"
             />
-            <span className="rightbarFollowingName">John Carter</span>
+            <span className="rightbarFollowingName">신태수</span>
           </div>
           <div className="rightbarFollowing">
             <img
@@ -58,7 +58,7 @@ function Rightbar({ profile }) {
               alt=""
               className="rightbarFollowingImg"
             />
-            <span className="rightbarFollowingName">John Carter</span>
+            <span className="rightbarFollowingName">홍순명</span>
           </div>
           <div className="rightbarFollowing">
             <img
@@ -66,7 +66,7 @@ function Rightbar({ profile }) {
               alt=""
               className="rightbarFollowingImg"
             />
-            <span className="rightbarFollowingName">John Carter</span>
+            <span className="rightbarFollowingName">김현수</span>
           </div>
           <div className="rightbarFollowing">
             <img
@@ -74,7 +74,7 @@ function Rightbar({ profile }) {
               alt=""
               className="rightbarFollowingImg"
             />
-            <span className="rightbarFollowingName">John Carter</span>
+            <span className="rightbarFollowingName">임보람</span>
           </div>
           <div className="rightbarFollowing">
             <img
@@ -82,7 +82,7 @@ function Rightbar({ profile }) {
               alt=""
               className="rightbarFollowingImg"
             />
-            <span className="rightbarFollowingName">John Carter</span>
+            <span className="rightbarFollowingName">이은비</span>
           </div>
           <div className="rightbarFollowing">
             <img
@@ -90,7 +90,7 @@ function Rightbar({ profile }) {
               alt=""
               className="rightbarFollowingImg"
             />
-            <span className="rightbarFollowingName">John Carter</span>
+            <span className="rightbarFollowingName">황진영</span>
           </div>
         </div>
       </>
