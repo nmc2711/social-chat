@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./topbar.css";
 import { Search, Person, Chat, Notifications } from "@material-ui/icons";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Topbar() {
+  const { user } = useContext(AuthContext);
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
-        <Link to="/" style={{textDecoration:'none'}}>
+        <Link to="/" style={{ textDecoration: "none" }}>
           <span className="logo">Yes Talk</span>
         </Link>
       </div>
@@ -40,11 +44,13 @@ export default function Topbar() {
           </div>
         </div>
         {/* 프로필사진 */}
-        <img
-          src="/assets/person/1.jpeg"
-          alt="임시프로필이미지"
-          className="topbarImg"
-        />
+        <Link to={`/profile/${user.username}`}>
+          <img
+            src={user.profilePicture || PF + "person/noavata.png"}
+            alt="임시프로필이미지"
+            className="topbarImg"
+          />
+        </Link>
       </div>
     </div>
   );

@@ -1,6 +1,23 @@
 import "./login.css";
+import { useContext, useRef } from "react";
+import { loginCall } from "../../apiCalls";
+import { AuthContext } from "../../context/AuthContext";
+import { CircularProgress } from "@material-ui/core";
 
 export default function Login() {
+  const email = useRef();
+  const password = useRef();
+  const { user, isFetching, error, dispatch } = useContext(AuthContext);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    loginCall(
+      { email: email.current.value, password: password.current.value },
+      dispatch
+    );
+  };
+
+  console.log(user);
   return (
     <div className="login">
       <div className="loginWrapper">
@@ -11,13 +28,38 @@ export default function Login() {
           </span>
         </div>
         <div className="loginRight">
-          <div className="loginBox">
-            <input placeholder="Email" className="loginInput" />
-            <input placeholder="Password" className="loginInput" />
-            <button className="loginButton">로그인</button>
+          <form className="loginBox" onSubmit={handleSubmit}>
+            <input
+              placeholder="Email"
+              className="loginInput"
+              type="email"
+              ref={email}
+              required
+            />
+            <input
+              placeholder="Password"
+              className="loginInput"
+              type="password"
+              ref={password}
+              minLength="6"
+              required
+            />
+            <button className="loginButton" type="submit" disabled={isFetching}>
+              {isFetching ? (
+                <CircularProgress color="white" size="20px" />
+              ) : (
+                "로그인"
+              )}
+            </button>
             <span className="loginForgot">비밀번호를 잊어버리셨나요 ?</span>
-            <button className="loginRegisterButton">회원가입</button>
-          </div>
+            <button className="loginRegisterButton">
+              {isFetching ? (
+                <CircularProgress color="white" size="20px" />
+              ) : (
+                "회원가입"
+              )}
+            </button>
+          </form>
         </div>
       </div>
     </div>
