@@ -13,6 +13,13 @@ const PostSchema = new mongoose.Schema(
     img: {
       type: String,
     },
+    username: {
+      type: String,
+    },
+    profilePicture: {
+      type: String,
+      default: "",
+    },
     likes: {
       type: Array,
       default: [],

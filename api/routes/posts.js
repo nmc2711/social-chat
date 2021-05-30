@@ -5,7 +5,13 @@ const User = require("../models/User");
 //create a post
 
 router.post("/", async (req, res) => {
-  const newPost = new Post(req.body);
+  const currentUser = await User.findById(req.body.userId);
+  const ADDINFO = {
+    ...req.body,
+    username: currentUser.username,
+    profilePicture: currentUser.profilePicture,
+  };
+  const newPost = new Post(ADDINFO);
   try {
     const savedPost = await newPost.save();
     res.status(200).json(savedPost);
@@ -75,6 +81,7 @@ router.get("/:id", async (req, res) => {
 router.get("/timeline/:userId", async (req, res) => {
   try {
     const currentUser = await User.findById(req.params.userId);
+
     const userPosts = await Post.find({ userId: currentUser._id });
     const friendPosts = await Promise.all(
       currentUser.followings.map((friendId) => {

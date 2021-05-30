@@ -4,12 +4,11 @@ import { MoreVert } from "@material-ui/icons";
 import { useState, useEffect, useContext } from "react";
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/authC/AuthContext";
 
 export default function Post({ post }) {
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
-  const [user, setUser] = useState({});
 
   const { user: currentUser } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -27,14 +26,6 @@ export default function Post({ post }) {
     setIsLiked(post.likes.includes(currentUser._id));
   }, [post.likes, currentUser._id]);
 
-  useEffect(async () => {
-    const fetchUser = async () => {
-      const res = await axios.get(`/users?userId=${post.userId}`);
-      setUser(res.data);
-    };
-    fetchUser();
-  }, [post.userId]);
-
   return (
     <div className="post">
       <div className="postWrapper">
@@ -43,12 +34,12 @@ export default function Post({ post }) {
             <Link to={`profile/${post.username}`}>
               <img
                 className="postProfileImg"
-                src={user.profilePicture || PF + "person/noavata.png"}
+                src={post.profilePicture || PF + "person/noavata.png"}
                 alt="
               피드 프로필이미지"
               />
             </Link>
-            <span className="postUsername">{user.username}</span>
+            <span className="postUsername">{post.username}</span>
             <span className="postDate">{format(post.createdAt)}</span>
           </div>
           <div className="postTopRight">
@@ -58,7 +49,7 @@ export default function Post({ post }) {
         <div className="postCenter">
           <span className="postText">{post?.desc}</span>
           {post.img && (
-            <img className="postImg" src={post.img} alt="피드이미지" />
+            <img className="postImg" src={PF + post.img} alt="피드이미지" />
           )}
         </div>
         <div className="postBottom">

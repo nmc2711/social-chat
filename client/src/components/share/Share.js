@@ -1,27 +1,46 @@
 import "./share.css";
 import { PermMedia, Label, Room, EmojiEmotions } from "@material-ui/icons";
 import { useContext, useRef, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/authC/AuthContext";
+import { PostContext } from "../../context/postC/PostContext";
 import axios from "axios";
 
 export default function Share() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const { user } = useContext(AuthContext);
+  const { postCallState, dispatch } = useContext(PostContext);
+
   const [file, setFile] = useState(null);
+
   const desc = useRef();
-  const password = useRef();
 
-  const handleSubmit = async (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-
     const newPost = {
-      userId: user.profilePicture._id,
+      userId: user._id,
       desc: desc.current.value,
+      username: user.username,
     };
+    if (file) {
+      const data = new FormData();
+      const fileName = Date.now() + file.name;
+      data.append("name", fileName);
+      data.append("file", file);
+      newPost.img = fileName;
 
+      try {
+        await axios.post("/upload", data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
     try {
       await axios.post("/posts", newPost);
-    } catch (err) {}
+      dispatch({ type: "POST_UPLOAD", payload: !postCallState });
+      desc.current.value = "";
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -36,10 +55,11 @@ export default function Share() {
           <input
             placeholder={`${user.username}님 지금 하고싶은 말은?`}
             className="shareInput"
+            ref={desc}
           />
         </div>
         <hr className="shareHr" />
-        <form className="shareBottom" onSubmit={handleSubmit}>
+        <form className="shareBottom" onSubmit={submitHandler}>
           <div className="shareOptions">
             <label className="shareOption" htmlFor="file">
               <PermMedia htmlColor="tomato" className="shareIcon" />

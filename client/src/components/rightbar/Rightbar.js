@@ -5,7 +5,7 @@ import { Users } from "../../dummyData";
 
 function Rightbar({ user }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  console.log(user);
+
   const HomeRightbar = () => {
     return (
       <>
