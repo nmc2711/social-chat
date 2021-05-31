@@ -3,3 +3,16 @@
   padding: 20px;
   box-sizing: border-box;
 }
+.noResult {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  font-size: 20vh;
+}
+.loadingWrap {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

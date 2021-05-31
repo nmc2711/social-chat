@@ -5,8 +5,10 @@ import { Users } from "../../dummyData";
 import axios from "axios";
 import { AuthContext } from "../../context/authC/AuthContext";
 import { Add, Remove } from "@material-ui/icons";
+import { useHistory } from "react-router-dom";
 
 function Rightbar({ user }) {
+  const history = useHistory();
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
   const { user: currentUser, dispatch } = useContext(AuthContext);
@@ -107,7 +109,11 @@ function Rightbar({ user }) {
         <div className="rightbarFollowings">
           {friends.map((friend, idx) => {
             return (
-              <div className="rightbarFollowing" key={idx + "friend"}>
+              <div
+                className="rightbarFollowing"
+                key={idx + "friend"}
+                onClick={() => history.push(`/profile/${friend.username}`)}
+              >
                 <img
                   src={friend.profilePicture || PF + "person/noavata.png"}
                   alt="친구 프로필 사진"
