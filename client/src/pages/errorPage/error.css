@@ -1,0 +1,26 @@
+.errorWrap {
+  margin: 0 auto;
+  width: 80%;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.errh2 {
+  font-size: 5vw;
+  color: #1872f2;
+}
+.errbtn {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  border: none;
+  background-color: #1872f2;
+  color: #fff;
+  border-radius: 5px;
+  padding: 12px 20px;
+  font-size: 24px;
+  font-weight: 500;
+  cursor: pointer;
+}
