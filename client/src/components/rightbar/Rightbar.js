@@ -1,12 +1,22 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import "./rightbar.css";
 import Online from "../online/Online";
 import { Users } from "../../dummyData";
 import axios from "axios";
+import { AuthContext } from "../../context/authC/AuthContext";
+import { Add, Remove } from "@material-ui/icons";
 
 function Rightbar({ user }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
+  const { user: currentUser, dispatch } = useContext(AuthContext);
+  const [followed, setFollowed] = useState(false);
+
+  // 초기 팔로우 세팅
+  useLayoutEffect(() => {
+    if (user && user._id)
+      setFollowed(currentUser.followings.includes(user?._id));
+  }, [user]);
 
   useEffect(async () => {
     const getFriends = async () => {
@@ -19,6 +29,23 @@ function Rightbar({ user }) {
     };
     if (user && user._id) getFriends();
   }, [user]);
+
+  const handleClick = async () => {
+    try {
+      if (followed) {
+        await axios.put(`/users/${user._id}/unfollow`, {
+          userId: currentUser._id,
+        });
+        dispatch({ type: "UNFOLLOW", payload: user._id });
+      } else {
+        await axios.put(`/users/${user._id}/follow`, {
+          userId: currentUser._id,
+        });
+        dispatch({ type: "FOLLOW", payload: user._id });
+      }
+      setFollowed(!followed);
+    } catch (err) {}
+  };
 
   const HomeRightbar = () => {
     return (
@@ -43,7 +70,13 @@ function Rightbar({ user }) {
   const ProfileRightbar = () => {
     return (
       <>
-        <h4 className="rightbarTitle">나의 정보</h4>
+        {user.username !== currentUser.username && (
+          <button className="rightbarFollowButton" onClick={handleClick}>
+            {followed ? "친구안해" : "친구해요"}
+            {followed ? <Remove /> : <Add />}
+          </button>
+        )}
+        <h4 className="rightbarTitle">유저 정보</h4>
         <div className="rightbarInfo">
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">City:</span>

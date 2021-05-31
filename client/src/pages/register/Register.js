@@ -1,7 +1,7 @@
 import "./register.css";
 import { useRef } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 export default function Register() {
   const history = useHistory();
@@ -78,7 +78,11 @@ export default function Register() {
             <button className="loginButton" type="submit">
               회원가입
             </button>
-            <button className="loginRegisterButton">다른계정으로 로그인</button>
+            <Link to={"/login"}>
+              <button className="loginRegisterButton">
+                다른계정으로 로그인
+              </button>
+            </Link>
           </form>
         </div>
       </div>
