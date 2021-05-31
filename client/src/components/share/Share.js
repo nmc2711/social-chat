@@ -14,6 +14,11 @@ export default function Share() {
 
   const desc = useRef();
 
+  const initializeShareInputs = () => {
+    desc.current.value = "";
+    setFile(null);
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
     const newPost = {
@@ -37,10 +42,10 @@ export default function Share() {
     try {
       await axios.post("/posts", newPost);
       dispatch({ type: "POST_UPLOAD", payload: !postCallState });
-      desc.current.value = "";
     } catch (err) {
       console.log(err);
     }
+    initializeShareInputs();
   };
 
   return (

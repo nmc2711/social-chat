@@ -65,10 +65,10 @@
 .rightbarFollowings {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
 }
 
 .rightbarFollowing {
+  width: 33%;
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;

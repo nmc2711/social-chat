@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import "./rightbar.css";
 import Online from "../online/Online";
 import { Users } from "../../dummyData";
+import axios from "axios";
 
 function Rightbar({ user }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const [friends, setFriends] = useState([]);
 
+  useEffect(async () => {
+    const getFriends = async () => {
+      try {
+        const res = await axios.get("/users/friends/" + user._id);
+        setFriends(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    if (user._id) getFriends();
+  }, [user._id]);
+  console.log(friends);
   const HomeRightbar = () => {
     return (
       <>
@@ -58,54 +72,18 @@ function Rightbar({ user }) {
         </div>
         <h4 className="rightbarTitle">관련된 사람들</h4>
         <div className="rightbarFollowings">
-          <div className="rightbarFollowing">
-            <img
-              src={PF + `person/1.jpeg`}
-              alt=""
-              className="rightbarFollowingImg"
-            />
-            <span className="rightbarFollowingName">신태수</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              src={PF + `person/2.jpeg`}
-              alt=""
-              className="rightbarFollowingImg"
-            />
-            <span className="rightbarFollowingName">홍순명</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              src={PF + `person/3.jpeg`}
-              alt=""
-              className="rightbarFollowingImg"
-            />
-            <span className="rightbarFollowingName">김현수</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              src={PF + `person/4.jpeg`}
-              alt=""
-              className="rightbarFollowingImg"
-            />
-            <span className="rightbarFollowingName">임보람</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              src={PF + `person/5.jpeg`}
-              alt=""
-              className="rightbarFollowingImg"
-            />
-            <span className="rightbarFollowingName">이은비</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              src={PF + `person/6.jpeg`}
-              alt=""
-              className="rightbarFollowingImg"
-            />
-            <span className="rightbarFollowingName">황진영</span>
-          </div>
+          {friends.map((friend, idx) => {
+            return (
+              <div className="rightbarFollowing" key={idx + "friend"}>
+                <img
+                  src={friend.profilePicture || PF + "person/noavata.png"}
+                  alt="친구 프로필 사진"
+                  className="rightbarFollowingImg"
+                />
+                <span className="rightbarFollowingName">{friend.username}</span>
+              </div>
+            );
+          })}
         </div>
       </>
     );
@@ -121,3 +99,4 @@ function Rightbar({ user }) {
 }
 
 export default Rightbar;
+Rightbar.defaultProps = { user: [] };
