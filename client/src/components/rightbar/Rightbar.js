@@ -17,9 +17,9 @@ function Rightbar({ user }) {
         console.log(err);
       }
     };
-    if (user._id) getFriends();
-  }, [user._id]);
-  console.log(friends);
+    if (user && user._id) getFriends();
+  }, [user]);
+
   const HomeRightbar = () => {
     return (
       <>
@@ -99,4 +99,3 @@ function Rightbar({ user }) {
 }
 
 export default Rightbar;
-Rightbar.defaultProps = { user: [] };
