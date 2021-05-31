@@ -3,6 +3,7 @@ import { PermMedia, Label, Room, EmojiEmotions } from "@material-ui/icons";
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context/authC/AuthContext";
 import { PostContext } from "../../context/postC/PostContext";
+import { Cancel } from "@material-ui/icons";
 import axios from "axios";
 
 export default function Share() {
@@ -69,6 +70,17 @@ export default function Share() {
           />
         </div>
         <hr className="shareHr" />
+        {file && (
+          <div className="shareImgContainer">
+            <img
+              src="shareImg"
+              src={URL.createObjectURL(file)}
+              alt="업로드이미지 미리보기"
+            />
+            <Cancel className="shareCancelImg" onClick={() => setFile(null)} />
+            <span className="imgTag">파일명: {file["name"]}</span>
+          </div>
+        )}
         <form className="shareBottom" onSubmit={submitHandler}>
           <div className="shareOptions">
             <label className="shareOption" htmlFor="file">
@@ -81,7 +93,6 @@ export default function Share() {
                 onChange={(e) => setFile(e.target.files[0])}
                 style={{ display: "none" }}
               />
-              {file && <span className="imgTag">파일명: {file["name"]}</span>}
             </label>
             <div className="shareOption">
               <Label htmlColor="blue" className="shareIcon" />
