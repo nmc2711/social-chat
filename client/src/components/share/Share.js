@@ -21,6 +21,11 @@ export default function Share() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if (desc.current.value.length === 0 && file === null) {
+      alert("한글자이상 입력해주세요!");
+      return null;
+    }
     const newPost = {
       userId: user._id,
       desc: desc.current.value,
