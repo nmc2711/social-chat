@@ -4,6 +4,7 @@ import Profile from "./pages/profile/Profile";
 import Register from "./pages/register/Register";
 import ErrorPage from "./pages/errorPage/ErrorPage";
 import Messenger from "./pages/messenger/Messenger";
+import ScrollToTop from "./common/scrollTop";
 import {
   BrowserRouter as Router,
   Switch,
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <Switch>
         <Route exact path="/">
           {user ? <Home /> : <Register />}
