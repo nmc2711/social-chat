@@ -4,6 +4,7 @@ import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context/authC/AuthContext";
 import { PostContext } from "../../context/postC/PostContext";
 import { Cancel } from "@material-ui/icons";
+import { toast } from "../../common/toast/ToastManager";
 import axios from "axios";
 
 export default function Share() {
@@ -56,6 +57,18 @@ export default function Share() {
 
   return (
     <div className="share">
+      <button
+        className="ttt"
+        onClick={() =>
+          toast.show({
+            title: "토스트 테스트",
+            content: "DIDAISAIDASIDAISI",
+            duration: 3000,
+          })
+        }
+      >
+        토스트테스트
+      </button>
       <div className="shareWrapper">
         <div className="shareTop">
           <img
