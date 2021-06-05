@@ -5,12 +5,25 @@ const ConversationSchema = new mongoose.Schema(
     members: {
       type: Array,
     },
-    username: {
+    sendUsername: {
       type: String,
     },
-    profilePicture: {
+    sendprofilePicture: {
       type: String,
       default: "",
+    },
+    senderIds: {
+      type: String,
+    },
+    recUsername: {
+      type: String,
+    },
+    recprofilePicture: {
+      type: String,
+      default: "",
+    },
+    receiverIds: {
+      type: String,
     },
   },
   { timestamps: true }

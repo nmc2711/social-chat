@@ -11,12 +11,25 @@ const MessageSchema = new mongoose.Schema(
     text: {
       type: String,
     },
-    username: {
+    sendUsername: {
       type: String,
     },
-    profilePicture: {
+    sendprofilePicture: {
       type: String,
       default: "",
+    },
+    senderIds: {
+      type: String,
+    },
+    recUsername: {
+      type: String,
+    },
+    recprofilePicture: {
+      type: String,
+      default: "",
+    },
+    receiverIds: {
+      type: String,
     },
   },
   { timestamps: true }

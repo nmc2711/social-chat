@@ -3,11 +3,19 @@ const Message = require("../models/Message");
 const User = require("../models/User");
 // add
 router.post("/", async (req, res) => {
-  const info = await User.findById(req.body.sender);
+  const sendUser = await User.findById(req.body.sender);
+  const receiveUser = await User.findById(req.body.recver);
+  const ADDINFO = {
+    sendUsername: sendUser.username,
+    sendprofilePicture: sendUser.profilePicture,
+    senderIds: sendUser._id,
+    recUsername: receiveUser.username,
+    recprofilePicture: receiveUser.profilePicture,
+    receiverIds: receiveUser._id,
+  };
   const infoData = {
     ...req.body,
-    username: info.username,
-    profilePicture: info.profilePicture,
+    ...ADDINFO,
   };
   const newMessage = new Message(infoData);
   try {

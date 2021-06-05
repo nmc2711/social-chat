@@ -1,34 +1,53 @@
-import React from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import "./chatOnline.css";
 
-function ChatOnline() {
+export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
+  const [friends, setFriends] = useState([]);
+  const [onlineFriends, setOnlineFriends] = useState([]);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
+  useEffect(() => {
+    const getFriends = async () => {
+      const res = await axios.get("/users/friends/" + currentId);
+      setFriends(res.data);
+    };
+
+    getFriends();
+  }, [currentId]);
+
+  useEffect(() => {
+    setOnlineFriends(friends.filter((f) => onlineUsers.includes(f._id)));
+  }, [friends, onlineUsers]);
+
+  const handleClick = async (user) => {
+    try {
+      const res = await axios.get(
+        `/conversations/find/${currentId}/${user._id}`
+      );
+      setCurrentChat(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="chatOnline">
-      <div className="chatOnlineFriend">
-        <div className="chatOnlineImgContainer">
-          <img
-            src={PF + "person/noavata.png"}
-            alt="채팅친구프로필"
-            className="chatOnlineImg"
-          />
-          <div className="chatOnlineBadge"></div>
+      {onlineFriends.map((o) => (
+        <div className="chatOnlineFriend" onClick={() => handleClick(o)}>
+          <div className="chatOnlineImgContainer">
+            <img
+              className="chatOnlineImg"
+              src={
+                o?.profilePicture ? o.profilePicture : PF + "person/noavata.png"
+              }
+              alt=""
+            />
+            <div className="chatOnlineBadge"></div>
+          </div>
+          <span className="chatOnlineName">{o?.username}</span>
         </div>
-        <div className="chatOnlineName">산다라박</div>
-      </div>
-      <div className="chatOnlineFriend">
-        <div className="chatOnlineImgContainer">
-          <img
-            src={PF + "person/noavata.png"}
-            alt="채팅친구프로필"
-            className="chatOnlineImg"
-          />
-          <div className="chatOnlineBadge"></div>
-        </div>
-        <div className="chatOnlineName">산다라박</div>
-      </div>
+      ))}
     </div>
   );
 }
-
-export default ChatOnline;

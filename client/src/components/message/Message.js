@@ -9,11 +9,11 @@ export default function Message({ message, own }) {
         <img
           className="messageImg"
           src={
-            message?.profilePicture
-              ? message.profilePicture
-              : PF + "person/noavata.png"
+            message.profilePicture ||
+            message.sendprofilePicture ||
+            PF + "person/noavata.png"
           }
-          alt=""
+          alt="채팅 프로필 사진"
         />
         <p className="messageText">{message.text}</p>
       </div>
