@@ -94,6 +94,7 @@ export default function Share() {
               src="shareImg"
               src={URL.createObjectURL(file)}
               alt="업로드이미지 미리보기"
+              className="shareAlreadyImg"
             />
             <Cancel className="shareCancelImg" onClick={() => setFile(null)} />
             <span className="imgTag">파일명: {file["name"]}</span>

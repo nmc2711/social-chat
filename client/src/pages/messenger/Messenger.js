@@ -74,7 +74,7 @@ function Messenger() {
         console.log(err);
       }
     };
-    getMessages();
+    if (currentChat) getMessages();
   }, [currentChat]);
 
   const handleSubmit = async (e) => {

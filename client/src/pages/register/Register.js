@@ -3,7 +3,7 @@ import { useHistory, Link } from "react-router-dom";
 
 import axios from "axios";
 
-import "./register.css";
+import { RegisterWrap } from "./registerStyle";
 
 export default function Register() {
   const history = useHistory();
@@ -36,7 +36,7 @@ export default function Register() {
   };
 
   return (
-    <div className="login">
+    <RegisterWrap>
       <div className="loginWrapper">
         <div className="loginLeft">
           <h3 className="loginLogo">Yes Talk</h3>
@@ -88,6 +88,6 @@ export default function Register() {
           </form>
         </div>
       </div>
-    </div>
+    </RegisterWrap>
   );
 }

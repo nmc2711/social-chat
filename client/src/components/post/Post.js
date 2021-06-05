@@ -1,10 +1,12 @@
-import axios from "axios";
-import "./post.css";
-import { MoreVert } from "@material-ui/icons";
-import { useState, useEffect, useContext } from "react";
-import { format } from "timeago.js";
+import { useState, useContext, useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/authC/AuthContext";
+
+import { format } from "timeago.js";
+import { putLikeToggle } from "../../util/apiCalls";
+
+import { MoreVert } from "@material-ui/icons";
+import "./post.css";
 
 export default function Post({ post }) {
   const [like, setLike] = useState(post.likes.length);
@@ -13,18 +15,17 @@ export default function Post({ post }) {
   const { user: currentUser } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
-  const likeHandler = () => {
-    setLike(isLiked ? like - 1 : like + 1);
-    setIsLiked(!isLiked);
-
-    try {
-      axios.put("/posts/" + post._id + "/like", { userId: currentUser._id });
-    } catch (err) {}
-  };
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsLiked(post.likes.includes(currentUser._id));
   }, [post.likes, currentUser._id]);
+
+  const likeHandler = () => {
+    // 좋아요 view 토글
+    setLike(isLiked ? like - 1 : like + 1);
+    setIsLiked(!isLiked);
+    // 좋아요 api 토글
+    putLikeToggle(post._id, currentUser._id);
+  };
 
   return (
     <div className="post">
@@ -35,8 +36,7 @@ export default function Post({ post }) {
               <img
                 className="postProfileImg"
                 src={post.profilePicture || PF + "person/noavata.png"}
-                alt="
-              피드 프로필이미지"
+                alt="피드 프로필이미지"
               />
             </Link>
             <span className="postUsername">{post.username}</span>
@@ -58,18 +58,18 @@ export default function Post({ post }) {
               className="likeIcon"
               src={PF + `like.png`}
               onClick={likeHandler}
-              alt=""
+              alt="좋아요하이콘"
             />
             <img
               className="likeIcon"
               src={PF + `heart.png`}
               onClick={likeHandler}
-              alt=""
+              alt="하트하이콘"
             />
-            <span className="postLikeCounter">{like} people like it</span>
+            <span className="postLikeCounter">{like}명의 친구들이 좋아요</span>
           </div>
           <div className="postBottomRight">
-            <span className="postCommentText">{post.comment} comments</span>
+            <span className="postCommentText">{post.comment} 답글</span>
           </div>
         </div>
       </div>

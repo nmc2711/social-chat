@@ -1,12 +1,13 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./conversations.css";
 
 function Conversation({ conversation, own }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  // own을 분기로 채팅창 나와 상대 나눔
   const prImg = own
     ? conversation?.recprofilePicture
     : conversation?.sendprofilePicture;
+
   return (
     <div className="conversation">
       <img
@@ -22,5 +23,4 @@ function Conversation({ conversation, own }) {
     </div>
   );
 }
-
 export default Conversation;
