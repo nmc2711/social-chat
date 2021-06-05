@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Message = require("../models/Message");
 const User = require("../models/User");
 
-// 메세지 전송
+//채팅 메세지 전송
 router.post("/", async (req, res) => {
   const sendUser = await User.findById(req.body.sender);
   const receiveUser = await User.findById(req.body.recver);
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
     res.status(500).json(err);
   }
 });
-// 메세지 조회
+//채팅 메세지 조회
 router.get("/:conversationId", async (req, res) => {
   try {
     const messages = await Message.find({

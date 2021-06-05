@@ -4,6 +4,7 @@ const io = require("socket.io")(8900, {
   },
 });
 
+// 소켓서버 접속 유저리스트
 let users = [];
 
 const addUser = (userId, socketId) => {
@@ -20,20 +21,20 @@ const getUser = (userId) => {
 };
 
 io.on("connection", (socket) => {
-  //when ceonnect
-  console.log("a user connected.");
-
-  //take userId and socketId from user
+  // 연결
+  console.log("유저가 연결되었습니다.");
+  // 요쳥 유저 리스트 추가
   socket.on("addUser", (userId) => {
     addUser(userId, socket.id);
+    // 유저 리스트 응답
     io.emit("getUsers", users);
   });
-
-  //send and get message
+  // 메세지 전송 요청시
   socket.on(
     "sendMessage",
     ({ senderId, receiverId, text, profilePicture, username }) => {
       const user = getUser(receiverId);
+      // 메세지 데이터 반환
       user.socketId &&
         io.to(user.socketId).emit("getMessage", {
           senderId,
@@ -43,10 +44,9 @@ io.on("connection", (socket) => {
         });
     }
   );
-
-  //when disconnect
+  // 소켓 디스커넥
   socket.on("disconnect", () => {
-    console.log("a user disconnected!");
+    console.log("유저가 소켓 연결을 해제 했습니다.");
     removeUser(socket.id);
     io.emit("getUsers", users);
   });
