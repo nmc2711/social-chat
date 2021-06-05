@@ -1,14 +1,19 @@
-import "./share.css";
-import { PermMedia, Label, Room, EmojiEmotions } from "@material-ui/icons";
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useCallback } from "react";
+import axios from "axios";
+
 import { AuthContext } from "../../context/authC/AuthContext";
 import { PostContext } from "../../context/postC/PostContext";
-import { Cancel } from "@material-ui/icons";
+
 import { toast } from "../../common/toast/ToastManager";
-import axios from "axios";
+
+import { PermMedia, Label, Room, EmojiEmotions } from "@material-ui/icons";
+import { Cancel } from "@material-ui/icons";
+
+import "./share.css";
 
 export default function Share() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
   const { user } = useContext(AuthContext);
   const { postCallState, dispatch } = useContext(PostContext);
 
@@ -16,16 +21,16 @@ export default function Share() {
 
   const desc = useRef();
 
-  const initializeShareInputs = () => {
+  const initializeShareInputs = useCallback(() => {
     desc.current.value = "";
     setFile(null);
-  };
+  }, []);
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
     if (desc.current.value.length === 0 && file === null) {
-      alert("한글자이상 입력해주세요!");
+      alert("한글자이상 입력해주세요 !");
       return null;
     }
     const newPost = {
@@ -39,36 +44,36 @@ export default function Share() {
       data.append("name", fileName);
       data.append("file", file);
       newPost.img = fileName;
-
       try {
         await axios.post("/upload", data);
       } catch (err) {
-        console.log(err);
+        toast.show({
+          title: "실패",
+          content: err,
+          duration: 3000,
+        });
       }
     }
     try {
       await axios.post("/posts", newPost);
       dispatch({ type: "POST_UPLOAD", payload: !postCallState });
+      toast.show({
+        title: "성공",
+        content: "피드를 등록했어요 !",
+        duration: 3000,
+      });
     } catch (err) {
-      console.log(err);
+      toast.show({
+        title: "실패",
+        content: "피드 등록에 실패하였습니다.",
+        duration: 3000,
+      });
     }
     initializeShareInputs();
   };
 
   return (
     <div className="share">
-      <button
-        className="ttt"
-        onClick={() =>
-          toast.show({
-            title: "에러!",
-            content: "잘못된 접근입니다.",
-            duration: 3000,
-          })
-        }
-      >
-        토스트테스트
-      </button>
       <div className="shareWrapper">
         <div className="shareTop">
           <img
