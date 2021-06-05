@@ -11,6 +11,13 @@ const MessageSchema = new mongoose.Schema(
     text: {
       type: String,
     },
+    username: {
+      type: String,
+    },
+    profilePicture: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

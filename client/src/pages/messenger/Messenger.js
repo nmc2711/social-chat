@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import "./messenger.css";
 import Topbar from "../../components/topbar/Topbar";
 import Conversation from "../../components/conversations/Conversation";
@@ -8,11 +8,14 @@ import { AuthContext } from "../../context/authC/AuthContext";
 import axios from "axios";
 
 function Messenger() {
+  const scrollRef = useRef(null);
+
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
-
+  const [newMessage, setNewMessage] = useState("");
   const { user } = useContext(AuthContext);
+
   useEffect(() => {
     const getConversations = async () => {
       try {
@@ -24,6 +27,40 @@ function Messenger() {
     };
     getConversations();
   }, [user._id]);
+
+  useEffect(() => {
+    const getMessages = async () => {
+      try {
+        const res = await axios.get("/messages/" + currentChat?._id);
+        setMessages(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    if (currentChat) getMessages();
+  }, [currentChat]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const message = {
+      sender: user._id,
+      text: newMessage,
+      conversationId: currentChat._id,
+    };
+
+    try {
+      const res = await axios.post("/messages", message);
+      setMessages([...message, res.data]);
+      setNewMessage("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView();
+  }, [messages]);
+
   return (
     <>
       <Topbar />
@@ -32,8 +69,8 @@ function Messenger() {
           <div className="chatMenuWrapper">
             <input placeholder="Search for friends" className="chatMenuInput" />
             {conversations.map((c, idx) => (
-              <div onClick={() => setCurrentChat(c)}>
-                <Conversation conversation={c} currentUser={user} key={idx} />
+              <div onClick={() => setCurrentChat(c)} key={idx}>
+                <Conversation conversation={c} currentUser={user} />
               </div>
             ))}
           </div>
@@ -43,25 +80,22 @@ function Messenger() {
             {currentChat ? (
               <>
                 <div className="chatBoxTop">
-                  <Message own={true} />
-                  <Message />
-                  <Message own={true} />
-                  <Message />
-                  <Message own={true} />
-                  <Message />
-                  <Message own={true} />
-                  <Message />
-                  <Message own={true} />
-                  <Message />
-                  <Message own={true} />
-                  <Message />
+                  {messages.map((m) => (
+                    <div ref={scrollRef}>
+                      <Message message={m} own={m.sender === user._id} />
+                    </div>
+                  ))}
                 </div>
                 <div className="chatBoxBottom">
                   <textarea
                     placeholder="채팅내용을 입력해주세요..."
                     className="chatMessageInput"
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    value={newMessage}
                   ></textarea>
-                  <button className="chatSubmitButton">보내기</button>
+                  <button className="chatSubmitButton" onClick={handleSubmit}>
+                    보내기
+                  </button>
                 </div>
               </>
             ) : (
