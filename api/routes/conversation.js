@@ -1,10 +1,18 @@
 const router = require("express").Router();
 const Conversation = require("../models/Conversation");
+const User = require("../models/User");
 
 // new conv
 
 router.post("/", async (req, res) => {
+  const otherUser = await User.findById(req.body.receiverId);
+  const ADDINFO = {
+    username: otherUser.username,
+    profilePicture: otherUser.profilePicture,
+  };
+
   const newConversation = new Conversation({
+    ...ADDINFO,
     members: [req.body.senderId, req.body.receiverId],
   });
 
