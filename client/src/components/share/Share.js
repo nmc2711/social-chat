@@ -61,8 +61,8 @@ export default function Share() {
         className="ttt"
         onClick={() =>
           toast.show({
-            title: "토스트 테스트",
-            content: "DIDAISAIDASIDAISI",
+            title: "에러!",
+            content: "잘못된 접근입니다.",
             duration: 3000,
           })
         }

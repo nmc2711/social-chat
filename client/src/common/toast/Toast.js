@@ -13,13 +13,16 @@ function Toast(props) {
 
   return (
     <div>
-      <div className="toast-header">
+      <div className="toastHeader">
         <div>
-          {title} {id}
+          {title}
+          {/*  {id} */}
         </div>
-        <button onClick={destory}>X</button>
-        <div className="toast-body">{content}</div>
+        <button onClick={destory} className="toastBtn">
+          X
+        </button>
       </div>
+      <div className="toastBody">{content}</div>
     </div>
   );
 }

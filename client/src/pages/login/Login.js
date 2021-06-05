@@ -1,6 +1,6 @@
 import "./login.css";
 import { useContext, useRef } from "react";
-import { loginCall } from "../../apiCalls";
+import { loginCall } from "../../util/apiCalls";
 import { AuthContext } from "../../context/authC/AuthContext";
 import { CircularProgress } from "@material-ui/core";
 

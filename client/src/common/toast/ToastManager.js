@@ -9,7 +9,7 @@ export class ToastManager {
   constructor() {
     const body = document.getElementsByTagName("body")[0];
     const toastContainer = document.createElement("div");
-    toastContainer.id = "toast-container-main";
+    toastContainer.id = "toastContainerMain";
 
     body.insertAdjacentElement("beforeend", toastContainer);
 

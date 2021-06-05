@@ -8,11 +8,11 @@
   justify-content: center;
 }
 
-.errh2 {
+.errorTitle {
   font-size: 5vw;
   color: #1872f2;
 }
-.errbtn {
+.errorbtn {
   margin-top: 40px;
   margin-bottom: 10px;
   border: none;
