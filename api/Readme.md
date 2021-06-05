@@ -18,3 +18,25 @@ dotenv를 사용하는 이유는 우리가 개발을 하는 과정에서 서버�
 #### multer
 
 `4* multer`는 파일 업로드를 위해 사용되는 multipart/form-data 를 다루기 위한 node.js 의 미들웨어 입니다. <br />
+
+#### bcrpyt
+
+`5* bcrpyt`는 npm에 등록되어있는 암호화 모듈입니다. 이 모듈을 이용하면 아주 쉽게 패스워드의 hash값을 구하고 비교할 수 있습니다.
+
+### \*\*디렉터리 구조
+
+> models
+
+- Users : 유저 데이터 스키마
+- Posts : 게시물 데이터 스키마
+- Messages : 채팅 메시지 데이터 스키마
+- Conversation : 유저리스트 조회 스키마
+
+> routes
+
+- auth :
+  회원가입 api
+  로그인 api
+- users :
+
+> public
