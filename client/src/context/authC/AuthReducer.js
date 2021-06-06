@@ -36,6 +36,11 @@ const AuthReducer = (state, action) => {
           ),
         },
       };
+    case "SEND_CHATINFO":
+      return {
+        ...state,
+        chatInfo: action.payload,
+      };
     default:
       return state;
   }

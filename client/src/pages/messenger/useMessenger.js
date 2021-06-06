@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/authC/AuthContext";
 import axios from "axios";
 
 function useMessenger({ socket, scrollRef }) {
-  const { user } = useContext(AuthContext);
+  const { user, chatInfo } = useContext(AuthContext);
 
   const [conversations, setConversations] = useState([]); // --- 채팅이력 상대 리스트(left)
   const [currentChat, setCurrentChat] = useState(null); // 채팅방에대한 정보 갱신
@@ -28,6 +28,10 @@ function useMessenger({ socket, scrollRef }) {
       );
     });
   }, [user]);
+
+  useEffect(() => {
+    if (chatInfo) setCurrentChat(chatInfo);
+  }, [chatInfo]);
 
   useEffect(() => {
     // 채팅이력 상대 리스트 조회

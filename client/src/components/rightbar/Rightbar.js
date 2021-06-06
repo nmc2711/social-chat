@@ -6,13 +6,17 @@ import axios from "axios";
 import { AuthContext } from "../../context/authC/AuthContext";
 import { Add, Remove } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
+import { postConversation } from "../../util/apiCalls";
 
 function Rightbar({ user }) {
   const history = useHistory();
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
   const { user: currentUser, dispatch } = useContext(AuthContext);
+
   const [followed, setFollowed] = useState(false);
+
+  const friendId = user && user._id;
 
   // 초기 팔로우 세팅
   useLayoutEffect(() => {
@@ -49,6 +53,26 @@ function Rightbar({ user }) {
     } catch (err) {}
   };
 
+  const handleLinkMessenger = async () => {
+    try {
+      const res = await axios.get(
+        `/conversations/find/${currentUser._id}/${friendId}`
+      );
+      // 기존 채팅방 개설유무에 따른 채팅방 신개설 있다면 기존
+      if (res.data) {
+        dispatch({ type: "SEND_CHATINFO", payload: res.data });
+      } else {
+        const messagesData = postConversation(currentUser._id, friendId);
+        dispatch({ type: "SEND_CHATINFO", payload: messagesData });
+      }
+      setTimeout(() => {
+        history.push("/messenger");
+      }, 100);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const HomeRightbar = () => {
     return (
       <>
@@ -73,10 +97,18 @@ function Rightbar({ user }) {
     return (
       <>
         {user.username !== currentUser.username && (
-          <button className="rightbarFollowButton" onClick={handleClick}>
-            {followed ? "친구안해" : "친구해요"}
-            {followed ? <Remove /> : <Add />}
-          </button>
+          <div className="rightbarController">
+            <button className="rightbarFollowButton" onClick={handleClick}>
+              {followed ? "친구안해" : "친구해요"}
+              {followed ? <Remove /> : <Add />}
+            </button>
+            <button
+              className="rightbarFollowButton fd"
+              onClick={handleLinkMessenger}
+            >
+              대화하기
+            </button>
+          </div>
         )}
         <h4 className="rightbarTitle">유저 정보</h4>
         <div className="rightbarInfo">

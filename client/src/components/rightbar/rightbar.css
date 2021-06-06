@@ -81,6 +81,10 @@
   object-fit: cover;
   border-radius: 5px;
 }
+
+.rightbarController {
+  display: flex;
+}
 .rightbarFollowButton {
   display: flex;
   align-items: center;
@@ -94,6 +98,10 @@
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
+}
+.fd {
+  margin-left: 12px;
+  background-color: #42b72a;
 }
 
 .rightbarFollowButton:focus {
