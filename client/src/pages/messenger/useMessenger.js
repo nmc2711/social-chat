@@ -30,6 +30,7 @@ function useMessenger({ socket, scrollRef }) {
   }, [user]);
 
   useEffect(() => {
+    // 프로필 페이지로 바로들어온 챗터연결
     if (chatInfo) setCurrentChat(chatInfo);
   }, [chatInfo]);
 

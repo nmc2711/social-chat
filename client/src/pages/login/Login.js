@@ -1,12 +1,14 @@
 import { useContext, useRef } from "react";
 import { AuthContext } from "../../context/authC/AuthContext";
-
+import { useHistory } from "react-router-dom";
 import { loginCall } from "../../util/apiCalls";
 
 import { CircularProgress } from "@material-ui/core";
 import "./login.css";
 
 export default function Login() {
+  const history = useHistory();
+
   const email = useRef();
   const password = useRef();
   const { user, isFetching, error, dispatch } = useContext(AuthContext);
@@ -52,7 +54,10 @@ export default function Login() {
               )}
             </button>
             <span className="loginForgot">비밀번호를 잊어버리셨나요 ?</span>
-            <button className="loginRegisterButton">
+            <button
+              className="loginRegisterButton"
+              onClick={() => history.push("/register")}
+            >
               {isFetching ? (
                 <CircularProgress color="white" size="20px" />
               ) : (

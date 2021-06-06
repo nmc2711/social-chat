@@ -6,7 +6,6 @@ import axios from "axios";
 import { AuthContext } from "../../context/authC/AuthContext";
 import { Add, Remove } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
-import { postConversation } from "../../util/apiCalls";
 
 function Rightbar({ user }) {
   const history = useHistory();
@@ -62,8 +61,11 @@ function Rightbar({ user }) {
       if (res.data) {
         dispatch({ type: "SEND_CHATINFO", payload: res.data });
       } else {
-        const messagesData = postConversation(currentUser._id, friendId);
-        dispatch({ type: "SEND_CHATINFO", payload: messagesData });
+        const res = await axios.post(`/conversations/`, {
+          senderId: currentUser._id,
+          receiverId: friendId,
+        });
+        dispatch({ type: "SEND_CHATINFO", payload: res.data });
       }
       setTimeout(() => {
         history.push("/messenger");
