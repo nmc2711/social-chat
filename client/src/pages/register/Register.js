@@ -3,6 +3,8 @@ import { useHistory, Link } from "react-router-dom";
 
 import axios from "axios";
 
+import { toast } from "../../common/toast/ToastManager";
+
 import { RegisterWrap } from "./registerStyle";
 
 export default function Register() {
@@ -17,6 +19,7 @@ export default function Register() {
     e.preventDefault();
 
     if (password.current.value !== passwordAgain.current.value) {
+      // 시스템 validate
       passwordAgain.current.setCustomValidity(
         "입력하신 패스워드가 일치하지 않습니다."
       );
@@ -30,7 +33,11 @@ export default function Register() {
         await axios.post("/auth/register", user);
         history.push("/login");
       } catch (err) {
-        console.log(err);
+        toast.show({
+          title: "회원가입 실패",
+          content: err,
+          duration: 3000,
+        });
       }
     }
   };

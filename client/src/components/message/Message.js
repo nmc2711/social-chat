@@ -1,5 +1,5 @@
-import "./message.css";
 import { format } from "timeago.js";
+import "./message.css";
 
 export default function Message({ message, own }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;

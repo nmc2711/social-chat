@@ -1,18 +1,20 @@
+import { useEffect, useLayoutEffect, useState } from "react";
+import { postConversation } from "../../util/apiCalls";
 import axios from "axios";
-import { useEffect, useState } from "react";
+
 import "./chatOnline.css";
 
 export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
-  const [friends, setFriends] = useState([]);
-  const [onlineFriends, setOnlineFriends] = useState([]);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
-  useEffect(() => {
+  const [friends, setFriends] = useState([]);
+  const [onlineFriends, setOnlineFriends] = useState([]);
+
+  useLayoutEffect(() => {
     const getFriends = async () => {
       const res = await axios.get("/users/friends/" + currentId);
       setFriends(res.data);
     };
-
     getFriends();
   }, [currentId]);
 
@@ -21,19 +23,16 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
   }, [friends, onlineUsers]);
 
   const handleClick = async (user) => {
-    console.log(user);
     try {
       const res = await axios.get(
         `/conversations/find/${currentId}/${user._id}`
       );
+      // 기존 채팅방 개설유무에 따른 채팅방 신개설 있다면 기존
       if (res.data) {
         setCurrentChat(res.data);
       } else {
-        const res = await axios.post(`/conversations/`, {
-          senderId: currentId,
-          receiverId: user._id,
-        });
-        setCurrentChat(res.data);
+        const messagesData = postConversation(currentId, user._id);
+        setCurrentChat(messagesData);
       }
     } catch (err) {
       console.log(err);
@@ -50,7 +49,7 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
               src={
                 o?.profilePicture ? o.profilePicture : PF + "person/noavata.png"
               }
-              alt=""
+              alt="온라인 유저 프로필 이미지"
             />
             <div className="chatOnlineBadge"></div>
           </div>

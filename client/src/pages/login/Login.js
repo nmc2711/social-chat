@@ -1,8 +1,10 @@
-import "./login.css";
 import { useContext, useRef } from "react";
-import { loginCall } from "../../util/apiCalls";
 import { AuthContext } from "../../context/authC/AuthContext";
+
+import { loginCall } from "../../util/apiCalls";
+
 import { CircularProgress } from "@material-ui/core";
+import "./login.css";
 
 export default function Login() {
   const email = useRef();
@@ -16,8 +18,6 @@ export default function Login() {
       dispatch
     );
   };
-
-  console.log(user);
   return (
     <div className="login">
       <div className="loginWrapper">

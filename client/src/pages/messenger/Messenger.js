@@ -1,119 +1,33 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import "./messenger.css";
+import React, { useRef } from "react";
+
 import Topbar from "../../components/topbar/Topbar";
 import Conversation from "../../components/conversations/Conversation";
 import Message from "../../components/message/Message";
 import ChatOnline from "../../components/chatOnline/ChatOnline";
-import { AuthContext } from "../../context/authC/AuthContext";
-import axios from "axios";
-import { io } from "socket.io-client";
+
+import "./messenger.css";
+
+import useMessenger from "./useMessenger";
 
 function Messenger() {
-  const [conversations, setConversations] = useState([]);
-  const [currentChat, setCurrentChat] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-  const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [onlineUsers, setOnlineUsers] = useState([]);
   const socket = useRef();
-  const { user } = useContext(AuthContext);
   const scrollRef = useRef();
 
-  useEffect(() => {
-    socket.current = io("ws://localhost:8900");
-  }, []);
-
-  useEffect(() => {
-    if (currentChat) {
-      socket.current.on("getMessage", (data) => {
-        console.log(data);
-        setArrivalMessage({
-          sender: data.senderId,
-          text: data.text,
-          createdAt: Date.now(),
-          profilePicture: data.profilePicture,
-          username: data.username,
-        });
-      });
-    }
-  }, [currentChat]);
-
-  useEffect(() => {
-    socket.current.emit("addUser", user._id);
-    socket.current.on("getUsers", (users) => {
-      setOnlineUsers(
-        user.followings.filter((f) => users.some((u) => u.userId === f))
-      );
-    });
-  }, [user]);
-
-  useEffect(() => {
-    arrivalMessage &&
-      currentChat?.members.includes(arrivalMessage.sender) &&
-      setMessages((prev) => [...prev, arrivalMessage]);
-  }, [arrivalMessage, currentChat]);
-
-  useEffect(() => {
-    const getConversations = async () => {
-      try {
-        const res = await axios.get("/conversations/" + user._id);
-        setConversations(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getConversations();
-  }, [user._id]);
-
-  useEffect(() => {
-    const getMessages = async () => {
-      try {
-        const res = await axios.get("/messages/" + currentChat?._id);
-        setMessages(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    if (currentChat) getMessages();
-  }, [currentChat]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const receiverId = currentChat.members.find(
-      (member) => member !== user._id
-    );
-
-    const message = {
-      sender: user._id,
-      recver: receiverId,
-      text: newMessage,
-      conversationId: currentChat._id,
-    };
-
-    socket.current.emit("sendMessage", {
-      senderId: user._id,
-      receiverId,
-      text: newMessage,
-      profilePicture: user.profilePicture,
-      username: user.username,
-    });
-
-    try {
-      const res = await axios.post("/messages", message);
-      setMessages([...messages, res.data]);
-      setNewMessage("");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView();
-  }, [messages]);
+  // useMessenger 커스텀훅을 통한 index 상태관리
+  const {
+    user,
+    conversations,
+    currentChat,
+    messages,
+    newMessage,
+    onlineUsers,
+    setNewMessage,
+    setCurrentChat,
+    handleSubmit,
+  } = useMessenger({ socket, scrollRef });
 
   return (
-    <>
+    <React.Fragment>
       <Topbar />
       <div className="messenger">
         <div className="chatMenu">
@@ -172,7 +86,7 @@ function Messenger() {
           </div>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }
 

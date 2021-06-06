@@ -1,11 +1,15 @@
-import "./profile.css";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
+import axios from "axios";
+
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Feed from "../../components/feed/Feed";
 import Rightbar from "../../components/rightbar/Rightbar";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+
+import "./profile.css";
+import React from "react";
 
 export default function Profile() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -21,7 +25,7 @@ export default function Profile() {
   }, [username]);
 
   return (
-    <>
+    <React.Fragment>
       <Topbar />
       <div className="profile">
         <Sidebar />
@@ -50,6 +54,6 @@ export default function Profile() {
           </div>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }
