@@ -14,4 +14,4 @@ mongoDB SOCKET REACT CONTEXTAPI REDUX REMATCH
 [10] 클라이언트 메신저 부분 소켓 및 디비 연결 및 화면 작성 6.6~6.7 <br />
 
 cl env : REACT_APP_PUBLIC_FOLDER = http://localhost:3000/assets/
-api env : 몽고디비 커넥계정
+api env : 몽고디비 커넥계정 \*
