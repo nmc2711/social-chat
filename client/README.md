@@ -19,7 +19,7 @@
 
 > apiCall : 팬딩인 적은 put post delete 공통 api export
 
-// pages => 페이지 컴포넌트들은 독립전인 core url
+// pages => 페이지 컴포넌트들은 독립전인 core url s
 
 > register : 회원가입 컴포넌트 (시스템 validation 및 로그인페이지 연동)
 > login : 로그인 컴포넌트 (시스템 validation 및 전역상태관리를 통한 로그인 완료 유저정보를 글로벌 저장)
