@@ -1,5 +1,7 @@
 # Yes Talk : Backend
 
+git push heroku main
+
 ### DB : MONGO DB
 
 ### SV : EXPRESS NODE
