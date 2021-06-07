@@ -26,7 +26,9 @@ function Rightbar({ user }) {
   useEffect(async () => {
     const getFriends = async () => {
       try {
-        const res = await axios.get("/users/friends/" + user._id);
+        const res = await axios.get(
+          "https://yeschathhsh.herokuapp.com/api/users/friends/" + user._id
+        );
         setFriends(res.data);
       } catch (err) {
         console.log(err);
@@ -38,14 +40,20 @@ function Rightbar({ user }) {
   const handleClick = async () => {
     try {
       if (followed) {
-        await axios.put(`/users/${user._id}/unfollow`, {
-          userId: currentUser._id,
-        });
+        await axios.put(
+          `https://yeschathhsh.herokuapp.com/api/users/${user._id}/unfollow`,
+          {
+            userId: currentUser._id,
+          }
+        );
         dispatch({ type: "UNFOLLOW", payload: user._id });
       } else {
-        await axios.put(`/users/${user._id}/follow`, {
-          userId: currentUser._id,
-        });
+        await axios.put(
+          `https://yeschathhsh.herokuapp.com/api/users/${user._id}/follow`,
+          {
+            userId: currentUser._id,
+          }
+        );
         dispatch({ type: "FOLLOW", payload: user._id });
       }
       setFollowed(!followed);
@@ -55,16 +63,19 @@ function Rightbar({ user }) {
   const handleLinkMessenger = async () => {
     try {
       const res = await axios.get(
-        `/conversations/find/${currentUser._id}/${friendId}`
+        `https://yeschathhsh.herokuapp.com/api/conversations/find/${currentUser._id}/${friendId}`
       );
       // 기존 채팅방 개설유무에 따른 채팅방 신개설 있다면 기존
       if (res.data) {
         dispatch({ type: "SEND_CHATINFO", payload: res.data });
       } else {
-        const res = await axios.post(`/conversations/`, {
-          senderId: currentUser._id,
-          receiverId: friendId,
-        });
+        const res = await axios.post(
+          `https://yeschathhsh.herokuapp.com/api/conversations/`,
+          {
+            senderId: currentUser._id,
+            receiverId: friendId,
+          }
+        );
         dispatch({ type: "SEND_CHATINFO", payload: res.data });
       }
       setTimeout(() => {

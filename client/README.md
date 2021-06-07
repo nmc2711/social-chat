@@ -14,8 +14,8 @@
 
 > scrollTop : 라우트 이동시 스크롤 탑유지 common fn (withRouter 로 히스토리 변화 감지후 스크롤탑 콜백)
 > toast : 토스트 메세지 기능(class 객체형 토스트 매니저에서 생성된 토스트 돔에 destroy show render 를 컴포넌트 생명주기를 이용한 호출(디자인별케이스 진행중))
-
-// util
+> //"proxy": "https://yeschathhsh.herokuapp.com/api"
+> // util
 
 > apiCall : 팬딩인 적은 put post delete 공통 api export
 

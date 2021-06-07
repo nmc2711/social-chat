@@ -6,6 +6,7 @@ const helmet = require("helmet"); // 2*
 const morgan = require("morgan"); // 3* express 콘솔로거
 const multer = require("multer"); // 4*
 const path = require("path");
+const cors = require("cors");
 
 const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
@@ -51,6 +52,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
     console.log(err);
   }
 });
+app.use(cors());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);

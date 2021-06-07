@@ -18,7 +18,9 @@ export default function Profile() {
 
   useEffect(async () => {
     const fetchUser = async () => {
-      const res = await axios.get(`/users?username=${username}`);
+      const res = await axios.get(
+        `https://yeschathhsh.herokuapp.com/api/users?username=${username}`
+      );
       setUser(res.data);
     };
     fetchUser();
