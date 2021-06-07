@@ -58,7 +58,7 @@ app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
 
 app.get("/", (req, res) => {
-  res.send("예스쳇 백엔드 서버 온");
+  res.send("예스쳇 백엔드 서버 온!");
 });
 // 서버연결
 app.listen(8800, () => {
