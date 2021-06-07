@@ -45,7 +45,7 @@ export default function Share() {
       data.append("file", file);
       newPost.img = fileName;
       try {
-        await axios.post("/upload", data);
+        await axios.post("https://yeschathhsh.herokuapp.com/api/upload", data);
       } catch (err) {
         toast.show({
           title: "실패",
