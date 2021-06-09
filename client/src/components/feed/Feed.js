@@ -37,12 +37,8 @@ function Feed({ username }) {
       setLoading(true);
       // 프로필 페이지 와 메인페이지의 피드가 다르기 떄문에 rest path 분기 (프로필 페이지는 내가 쓴것만)
       const res = username
-        ? await axios.get(
-            "https://yeschathhsh.herokuapp.com/api/posts/profile/" + username
-          )
-        : await axios.get(
-            "https://yeschathhsh.herokuapp.com/api/posts/timeline/" + user._id
-          );
+        ? await axios.get("/posts/profile/" + username)
+        : await axios.get("/posts/timeline/" + user._id);
       setPosts(
         res.data.sort((p1, p2) => {
           return new Date(p2.createdAt) - new Date(p1.createdAt);

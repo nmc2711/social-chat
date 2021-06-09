@@ -57,6 +57,9 @@
 .chatOnline {
   flex: 3;
 }
+.chatMenuWrapper {
+  overflow-y: scroll;
+}
 
 .chatMenuWrapper,
 .chatBoxWrapper,

@@ -5,10 +5,7 @@ import { toast } from "../common/toast/ToastManager";
 export const loginCall = async (userCredentials, dispatch) => {
   dispatch({ type: "LOGIN_START" });
   try {
-    const res = await axios.post(
-      "https://yeschathhsh.herokuapp.com/api/auth/login",
-      userCredentials
-    );
+    const res = await axios.post("/auth/login", userCredentials);
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
   } catch (err) {
     dispatch({ type: "LOGIN_FAILURE", payload: err });
@@ -19,10 +16,7 @@ export const loginCall = async (userCredentials, dispatch) => {
 // 게시물 좋아요 토글
 export const putLikeToggle = async (postId, currentUserId) => {
   try {
-    axios.put(
-      "https://yeschathhsh.herokuapp.com/api/posts/" + postId + "/like",
-      { userId: currentUserId }
-    );
+    axios.put("/posts/" + postId + "/like", { userId: currentUserId });
   } catch (err) {
     toast.show({
       title: "좋아요 실패",
@@ -36,13 +30,10 @@ export const putLikeToggle = async (postId, currentUserId) => {
 export const postConversation = async (senderId, receiverId) => {
   let resultData;
   try {
-    const res = await axios.post(
-      `https://yeschathhsh.herokuapp.com/api/conversations/`,
-      {
-        senderId,
-        receiverId,
-      }
-    );
+    const res = await axios.post(`/conversations/`, {
+      senderId,
+      receiverId,
+    });
     resultData = res.data;
   } catch (err) {
     resultData = false;

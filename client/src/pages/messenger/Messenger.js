@@ -34,7 +34,11 @@ function Messenger() {
           <div className="chatMenuWrapper">
             <input placeholder="Search for friends" className="chatMenuInput" />
             {conversations.map((c, idx) => (
-              <div onClick={() => setCurrentChat(c)} key={idx}>
+              <div
+                onClick={() => setCurrentChat(c)}
+                key={idx}
+                style={{ overflowY: "srcoll" }}
+              >
                 <Conversation
                   conversation={c}
                   currentUser={user}

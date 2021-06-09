@@ -1,18 +1,7 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const port = process.env.PORT || 8900;
-
-app.use(cors());
-
-const io = require("socket.io")(port, {
+const io = require("socket.io")(8900, {
   cors: {
-    origin: "https://wonderful-lalande-730b8e.netlify.app/",
+    origin: "http://localhost:3000",
   },
-});
-
-app.get("/", (req, res) => {
-  res.send("예스 챗 소켓 서버 오픈");
 });
 
 // 소켓서버 접속 유저리스트

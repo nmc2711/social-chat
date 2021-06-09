@@ -15,7 +15,7 @@ function useMessenger({ socket, scrollRef }) {
 
   useLayoutEffect(() => {
     // 소켓서버 커넥트
-    socket.current = io("https://yeschatsocket.herokuapp.com/");
+    socket.current = io("ws://localhost:8900");
   }, []);
 
   useEffect(() => {
@@ -38,9 +38,7 @@ function useMessenger({ socket, scrollRef }) {
     // 채팅이력 상대 리스트 조회
     const getConversations = async () => {
       try {
-        const res = await axios.get(
-          "https://yeschathhsh.herokuapp.com/api/conversations/" + user._id
-        );
+        const res = await axios.get("/conversations/" + user._id);
         setConversations(res.data);
       } catch (err) {
         console.log(err);
@@ -53,9 +51,7 @@ function useMessenger({ socket, scrollRef }) {
     // 저장된 채팅 메세지 조회 init data
     const getMessages = async () => {
       try {
-        const res = await axios.get(
-          "https://yeschathhsh.herokuapp.com/api/messages/" + currentChat?._id
-        );
+        const res = await axios.get("/messages/" + currentChat?._id);
         setMessages(res.data);
       } catch (err) {
         console.log(err);
@@ -110,10 +106,7 @@ function useMessenger({ socket, scrollRef }) {
     });
 
     try {
-      const res = await axios.post(
-        "https://yeschathhsh.herokuapp.com/api/messages",
-        message
-      );
+      const res = await axios.post("/messages", message);
       setMessages([...messages, res.data]);
       setNewMessage("");
     } catch (err) {

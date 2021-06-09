@@ -12,9 +12,7 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
 
   useLayoutEffect(() => {
     const getFriends = async () => {
-      const res = await axios.get(
-        "https://yeschathhsh.herokuapp.com/api/users/friends/" + currentId
-      );
+      const res = await axios.get("/users/friends/" + currentId);
       setFriends(res.data);
     };
     getFriends();
@@ -27,7 +25,7 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
   const handleClick = async (user) => {
     try {
       const res = await axios.get(
-        `https://yeschathhsh.herokuapp.com/api/conversations/find/${currentId}/${user._id}`
+        `/conversations/find/${currentId}/${user._id}`
       );
       // 기존 채팅방 개설유무에 따른 채팅방 신개설 있다면 기존
       if (res.data) {
