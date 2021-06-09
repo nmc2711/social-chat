@@ -55,7 +55,7 @@ export default function Share() {
       }
     }
     try {
-      await axios.post("/posts", newPost);
+      await axios.post("https://yeschathhsh.herokuapp.com/api/posts", newPost);
       dispatch({ type: "POST_UPLOAD", payload: !postCallState });
       toast.show({
         title: "성공",
